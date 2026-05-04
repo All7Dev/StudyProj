@@ -1,9 +1,10 @@
 package com.example.SmartHouse.repository;
 
-import com.example.SmartHouse.entity.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.example.SmartHouse.entity.Device;
+
 @Repository
-public interface RoomRepository extends JpaRepository<Room, Long> {
+public interface DeviceRepository extends JpaRepository<Device, Long> {
 }
