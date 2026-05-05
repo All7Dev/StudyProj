@@ -2,6 +2,7 @@ com\example\SmartHouse\controller\TestController.class
 com\example\SmartHouse\entity\Device.class
 com\example\SmartHouse\entity\ScenarioType.class
 com\example\SmartHouse\config\SecurityConfig.class
+com\example\SmartHouse\repository\RoomRepository.class
 com\example\SmartHouse\repository\HomeRepository.class
 com\example\SmartHouse\SmartHouseApplication.class
 com\example\SmartHouse\entity\DeviceType.class
@@ -12,4 +13,5 @@ com\example\SmartHouse\entity\Room.class
 com\example\SmartHouse\repository\DeviceRepository.class
 com\example\SmartHouse\repository\SensorRepository.class
 com\example\SmartHouse\entity\Scenario.class
+com\example\SmartHouse\controller\HomeController.class
 com\example\SmartHouse\entity\SensorType.class

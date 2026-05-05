@@ -1,5 +1,7 @@
 package com.example.SmartHouse.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,5 +33,10 @@ public class Room {
     // Связь "многие к одному": много комнат принадлежат одному дому
     @ManyToOne
     @JoinColumn(name = "home_id") // Внешний ключ на таблицу homes
+    @JsonIgnore // Устранение рекурсии вывода
     private Home home;
+
+     public void setHome(Home home) {
+        this.home = home;
+     }
 }
