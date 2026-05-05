@@ -28,8 +28,8 @@ public class Role {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String name;               // Например "ROLE_ADMIN", "ROLE_USER"
-
+    private String name;               // например "ADMIN", "USER", "MANAGER"
+    
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(                       // Связка между ролями и правами
         name = "role_permissions",
@@ -37,4 +37,11 @@ public class Role {
         inverseJoinColumns = @JoinColumn(name = "permission_id")
     )
     private Set<Permission> permissions = new HashSet<>(); // Какие права даёт эта роль
+//Ручной ввод геттеров и сеттеров для устранения ошибки компилятора
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public Set<Permission> getPermissions() { return permissions; }
+    public void setPermissions(Set<Permission> permissions) { this.permissions = permissions; }
 }
