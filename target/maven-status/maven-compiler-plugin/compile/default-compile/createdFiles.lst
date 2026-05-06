@@ -23,6 +23,7 @@ com\example\SmartHouse\security\JwtAuthenticationFilter.class
 com\example\SmartHouse\config\SecurityConfig.class
 com\example\SmartHouse\security\JwtUtil.class
 com\example\SmartHouse\controller\ScenarioController.class
+com\example\SmartHouse\util\TelegramService.class
 com\example\SmartHouse\controller\AuthController.class
 com\example\SmartHouse\entity\Permission.class
 com\example\SmartHouse\entity\SensorType.class

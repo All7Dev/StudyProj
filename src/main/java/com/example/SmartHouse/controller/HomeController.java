@@ -19,6 +19,7 @@ import com.example.SmartHouse.entity.Home;
 import com.example.SmartHouse.entity.Room;
 import com.example.SmartHouse.repository.HomeRepository;
 import com.example.SmartHouse.repository.RoomRepository;
+import com.example.SmartHouse.util.TelegramService;
 
 @RestController                     // Этот класс будет обрабатывать HTTP-запросы
 @RequestMapping("/api/homes")       // Все методы внутри будут доступны по пути /api/homes
@@ -30,11 +31,16 @@ public class HomeController {
     @Autowired
     private RoomRepository roomRepository;
 
+    //Внедрение логирования
+    @Autowired
+    private TelegramService telegramService;
+
     // 1. СОЗДАТЬ НОВЫЙ ДОМ (POST)
     @PostMapping
     public ResponseEntity<Home> createHome(@RequestBody Home home) {
         // @RequestBody означает: взять JSON из тела запроса и превратить в объект Home
         Home savedHome = homeRepository.save(home);
+        telegramService.sendMessage("Новый дом создан: " + savedHome.getName()); //Отправка сообщения в ТГ
         return new ResponseEntity<>(savedHome, HttpStatus.CREATED);
     }
 
@@ -66,6 +72,7 @@ public class HomeController {
             existingHome.setAddress(homeDetails.getAddress());
             // другие поля, если есть
             Home updatedHome = homeRepository.save(existingHome);
+            telegramService.sendMessage("Дом обновлён: " + updatedHome.getName()); //Отправка сообщения в ТГ
             return ResponseEntity.ok(updatedHome);
         } else {
             return ResponseEntity.notFound().build();
@@ -77,6 +84,7 @@ public class HomeController {
     public ResponseEntity<Void> deleteHome(@PathVariable Long id) {
         if (homeRepository.existsById(id)) {
             homeRepository.deleteById(id);
+            telegramService.sendMessage("Дом удалён из списка id " + id); //Отправка сообщения в ТГ
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
