@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.SmartHouse.entity.Device;
 import com.example.SmartHouse.entity.Sensor;
+import com.example.SmartHouse.repository.DeviceRepository;
 import com.example.SmartHouse.repository.SensorRepository;
-
 @RestController
 @RequestMapping("/api/reports")
 public class ReportController {
@@ -55,5 +56,28 @@ public class ReportController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(csvBytes);
+    }
+    
+    @Autowired
+    private DeviceRepository deviceRepository;
+
+    @GetMapping("/devices/csv")
+    public ResponseEntity<byte[]> exportDevicesToCsv() {
+        List<Device> devices = deviceRepository.findAll();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        PrintWriter writer = new PrintWriter(out);
+        writer.println("ID,Name,Type,IsOn,Value,RoomId");
+        for (Device d : devices) {
+            Long roomId = (d.getRoom() != null) ? d.getRoom().getId() : 0L;
+            writer.printf("%d,%s,%s,%b,%d,%d%n",
+                    d.getId(), d.getName(), d.getType(), d.getIsOn(), 
+                    d.getValue() != null ? d.getValue() : 0, roomId);
+        }
+        writer.flush();
+        byte[] csvBytes = out.toByteArray();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_PLAIN);
+        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=devices_report.csv");
+        return ResponseEntity.ok().headers(headers).body(csvBytes);
     }
 }

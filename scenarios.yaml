@@ -1,0 +1,16 @@
+scenarios:
+  - name: Утро
+    type: AUTO
+    targetTemp: 22.5
+    targetLight: 80
+    turnOnMusic: true
+  - name: Вечер
+    type: MANUAL
+    targetTemp: 21.0
+    targetLight: 50
+    turnOnMusic: true
+  - name: Ночь
+    type: ECO
+    targetTemp: 18.0
+    targetLight: 10
+    turnOnMusic: false

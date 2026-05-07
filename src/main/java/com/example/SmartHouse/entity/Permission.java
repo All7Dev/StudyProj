@@ -22,4 +22,9 @@ public class Permission {
 
     @Column(unique = true, nullable = false)
     private String name;               // Например "home:create", "home:delete"
+//Ручной ввод геттеров сеттеров для устранения ошибки компиляции
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 }

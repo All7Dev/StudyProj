@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head><title>Импорт сценариев</title></head>
+<body>
+    <h2>Загрузите YAML-файл со сценариями</h2>
+    <form method="post" action="/api/scenarios/import" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".yaml,.yml" required>
+        <button type="submit">Импорт</button>
+    </form>
+</body>
+</html>
