@@ -1,6 +1,7 @@
 package com.example.SmartHouse.controller;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.SmartHouse.entity.Role;
 import com.example.SmartHouse.entity.User;
+import com.example.SmartHouse.repository.RoleRepository;
 import com.example.SmartHouse.repository.UserRepository;
 import com.example.SmartHouse.security.JwtUtil;
 
@@ -24,6 +27,9 @@ import jakarta.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+    
+    @Autowired 
+    private RoleRepository roleRepository;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -67,8 +73,12 @@ public class AuthController {
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
         user.setEnabled(true);
-        userRepository.save(user);
 
+        Role userRole = roleRepository.findByName("ROLE_USER")
+                .orElseThrow(() -> new RuntimeException("Роль ROLE_USER не найдена в БД"));
+        user.setRoles(Set.of(userRole));
+
+        userRepository.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "User registered"));
     }
 }
