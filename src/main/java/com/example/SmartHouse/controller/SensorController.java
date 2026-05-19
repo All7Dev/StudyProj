@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.SmartHouse.entity.Sensor;
 import com.example.SmartHouse.repository.SensorRepository;
+import com.example.SmartHouse.service.FaultSimulationService;
 
 @RestController
 @RequestMapping("/api/sensors")
@@ -65,4 +67,13 @@ public class SensorController {
         sensorRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @Autowired
+    private FaultSimulationService faultSimulationService;
+
+    @PostMapping("/simulate/{id}/fault")
+    public ResponseEntity<?> simulateFault(@PathVariable Long id, @RequestParam String errorMessage) {
+        faultSimulationService.simulateFault(id, errorMessage);
+        return ResponseEntity.ok("Fault simulated and CSV report generated");
+}
 }

@@ -11,17 +11,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "sensors")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Sensor {
 
     @Id
@@ -29,13 +21,46 @@ public class Sensor {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private SensorType type;   // TEMP, HUMIDITY, CO2, LIGHT, MOTION
+    private SensorType type;
 
-    private Double value;      // 22.5 (температура), 55.0 (влажность)
+    private Double value;
 
-    private LocalDateTime timestamp = LocalDateTime.now(); // когда получены данные
+    private LocalDateTime timestamp = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
+
+    @Enumerated(EnumType.STRING)
+    private SensorStatus status = SensorStatus.OK;
+
+    // Конструкторы
+    public Sensor() {}
+
+    public Sensor(SensorType type, Double value, Room room) {
+        this.type = type;
+        this.value = value;
+        this.room = room;
+        this.timestamp = LocalDateTime.now();
+        this.status = SensorStatus.OK;
+    }
+
+    // Геттеры и сеттеры
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public SensorType getType() { return type; }
+    public void setType(SensorType type) { this.type = type; }
+
+    public Double getValue() { return value; }
+    public void setValue(Double value) { this.value = value; }
+
+    public LocalDateTime getTimestamp() { return timestamp; }
+    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
+
+    public Room getRoom() { return room; }
+    public void setRoom(Room room) { this.room = room; }
+
+    public SensorStatus getStatus() { return status; }
+    public void setStatus(SensorStatus status) { this.status = status; }
 }

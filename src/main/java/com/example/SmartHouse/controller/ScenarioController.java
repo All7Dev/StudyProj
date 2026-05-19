@@ -21,6 +21,7 @@ import com.example.SmartHouse.dto.ScenarioImportDto;
 import com.example.SmartHouse.entity.Scenario;
 import com.example.SmartHouse.entity.ScenarioType;
 import com.example.SmartHouse.repository.ScenarioRepository;
+import com.example.SmartHouse.service.FaultSimulationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
@@ -104,5 +105,13 @@ public class ScenarioController {
     @GetMapping("/import-url")
         public String getImportFormUrl() {
         return "http://localhost:8080/upload.html";
+    }
+    @Autowired
+    private FaultSimulationService faultService;
+
+    @PostMapping("/simulate/{id}/fault")
+    public ResponseEntity<?> simulateFault(@PathVariable Long id, @RequestParam String errorMessage) {
+        faultService.simulateFault(id, errorMessage);
+        return ResponseEntity.ok("Fault simulated and report generated");
     }
 }
