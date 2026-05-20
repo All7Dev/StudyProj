@@ -8,8 +8,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,25 +25,20 @@ public class Sensor {
 
     private LocalDateTime timestamp = LocalDateTime.now();
 
-    @ManyToOne
-    @JoinColumn(name = "room_id")
-    private Room room;
-
     @Enumerated(EnumType.STRING)
     private SensorStatus status = SensorStatus.OK;
 
-    // Конструкторы
+    // конструкторы
     public Sensor() {}
 
-    public Sensor(SensorType type, Double value, Room room) {
+    public Sensor(SensorType type, Double value) {
         this.type = type;
         this.value = value;
-        this.room = room;
         this.timestamp = LocalDateTime.now();
         this.status = SensorStatus.OK;
     }
 
-    // Геттеры и сеттеры
+    // геттеры и сеттеры (Lombok не работает – пишем вручную)
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -57,9 +50,6 @@ public class Sensor {
 
     public LocalDateTime getTimestamp() { return timestamp; }
     public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
-
-    public Room getRoom() { return room; }
-    public void setRoom(Room room) { this.room = room; }
 
     public SensorStatus getStatus() { return status; }
     public void setStatus(SensorStatus status) { this.status = status; }

@@ -7,8 +7,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,24 +26,19 @@ public class Device {
     private Long id;
 
     @Column(nullable = false)
-    private String name;          // "Умная лампочка"
+    private String name;
 
-    @Enumerated(EnumType.STRING) // хранить в БД как строку ("LAMP", "AC", ...)
-    private DeviceType type;      // LAMP, AC, SPEAKER, HUMIDIFIER
+    @Enumerated(EnumType.STRING)
+    private DeviceType type;
 
-    private Boolean isOn = false; // включено/выключено
+    private Boolean isOn = false;
 
-    private Integer value;        // яркость (0-100) или температура (16-30) или громкость
+    private Integer value;   // яркость (0–100), громкость, температура и т.п.
 
-    @ManyToOne
-    @JoinColumn(name = "room_id")
-    private Room room;
-
-    // Для удобства: конструктор без id (если нужно)
-    public Device(String name, DeviceType type, Room room) {
+    // конструктор для удобства
+    public Device(String name, DeviceType type) {
         this.name = name;
         this.type = type;
-        this.room = room;
         this.isOn = false;
         this.value = null;
     }

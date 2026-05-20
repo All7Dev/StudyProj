@@ -1,10 +1,5 @@
 package com.example.SmartHouse.service;
 
-import com.example.SmartHouse.entity.Sensor;
-import com.example.SmartHouse.repository.SensorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,6 +8,12 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.SmartHouse.entity.Sensor;
+import com.example.SmartHouse.repository.SensorRepository;
 
 @Service
 public class CsvReportService {
@@ -30,14 +31,14 @@ public class CsvReportService {
             Path dir = Paths.get(REPORT_DIR);
             if (!Files.exists(dir)) Files.createDirectories(dir);
             try (FileWriter writer = new FileWriter(fileName)) {
-                writer.write("ID,Type,Value,Timestamp,RoomId\n");
+                writer.write("ID,Type,Value,Timestamp,Status\n");
                 for (Sensor s : sensors) {
-                    writer.write(String.format("%d,%s,%.2f,%s,%d\n",
+                    writer.write(String.format("%d,%s,%.2f,%s,%s\n",
                             s.getId(),
                             s.getType(),
                             s.getValue(),
                             s.getTimestamp().toString(),
-                            s.getRoom() != null ? s.getRoom().getId() : 0));
+                            s.getStatus()));
                 }
             }
             System.out.println("CSV report generated: " + fileName);

@@ -2,7 +2,7 @@ com\example\SmartHouse\service\FaultSimulationService.class
 com\example\SmartHouse\entity\ScenarioType.class
 com\example\SmartHouse\service\CsvReportService.class
 com\example\SmartHouse\repository\UserRepository.class
-com\example\SmartHouse\repository\RoomRepository.class
+com\example\SmartHouse\dto\AuthRequest.class
 com\example\SmartHouse\service\ReportScheduler.class
 com\example\SmartHouse\SmartHouseApplication.class
 com\example\SmartHouse\entity\DeviceType.class
@@ -10,7 +10,6 @@ com\example\SmartHouse\entity\Sensor.class
 com\example\SmartHouse\entity\User.class
 com\example\SmartHouse\repository\ScenarioRepository.class
 com\example\SmartHouse\controller\DeviceController.class
-com\example\SmartHouse\entity\Room.class
 com\example\SmartHouse\repository\DeviceRepository.class
 com\example\SmartHouse\controller\SensorController.class
 com\example\SmartHouse\repository\SensorRepository.class
@@ -25,12 +24,15 @@ com\example\SmartHouse\security\JwtAuthenticationFilter.class
 com\example\SmartHouse\config\SecurityConfig.class
 com\example\SmartHouse\security\JwtUtil.class
 com\example\SmartHouse\dto\ScenarioImportDto$ScenarioYaml.class
+com\example\SmartHouse\dto\DeviceCreateDto.class
 com\example\SmartHouse\controller\ScenarioController.class
 com\example\SmartHouse\repository\PermissionRepository.class
 com\example\SmartHouse\util\TelegramService.class
 com\example\SmartHouse\controller\AuthController.class
 com\example\SmartHouse\entity\SensorStatus.class
 com\example\SmartHouse\service\FaultSimulationService$1.class
+com\example\SmartHouse\dto\SensorCreateDto.class
 com\example\SmartHouse\entity\Permission.class
 com\example\SmartHouse\controller\ReportController.class
+com\example\SmartHouse\dto\ScenarioCreateDto.class
 com\example\SmartHouse\entity\SensorType.class

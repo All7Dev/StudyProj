@@ -17,6 +17,7 @@ import com.example.SmartHouse.entity.Device;
 import com.example.SmartHouse.entity.Sensor;
 import com.example.SmartHouse.repository.DeviceRepository;
 import com.example.SmartHouse.repository.SensorRepository;
+
 @RestController
 @RequestMapping("/api/reports")
 public class ReportController {
@@ -24,54 +25,49 @@ public class ReportController {
     @Autowired
     private SensorRepository sensorRepository;
 
-    // Отчёт по датчикам в формате CSV
+    @Autowired
+    private DeviceRepository deviceRepository;
+
     @GetMapping("/sensors/csv")
     public ResponseEntity<byte[]> exportSensorsToCsv() {
         List<Sensor> sensors = sensorRepository.findAll();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PrintWriter writer = new PrintWriter(out);
 
-        // Заголовки
-        writer.println("ID,Type,Value,Timestamp,RoomId");
-
+        writer.println("ID,Type,Value,Timestamp,Status");
         DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
         for (Sensor s : sensors) {
             String timestamp = s.getTimestamp() != null ? s.getTimestamp().format(formatter) : "";
-            Long roomId = (s.getRoom() != null) ? s.getRoom().getId() : 0L;
-            writer.printf("%d,%s,%.2f,%s,%d%n",
+            writer.printf("%d,%s,%.2f,%s,%s%n",
                     s.getId(),
                     s.getType(),
                     s.getValue(),
                     timestamp,
-                    roomId);
+                    s.getStatus());
         }
         writer.flush();
 
         byte[] csvBytes = out.toByteArray();
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.TEXT_PLAIN);
         headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=sensors_report.csv");
 
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(csvBytes);
+        return ResponseEntity.ok().headers(headers).body(csvBytes);
     }
-    
-    @Autowired
-    private DeviceRepository deviceRepository;
 
     @GetMapping("/devices/csv")
     public ResponseEntity<byte[]> exportDevicesToCsv() {
         List<Device> devices = deviceRepository.findAll();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PrintWriter writer = new PrintWriter(out);
-        writer.println("ID,Name,Type,IsOn,Value,RoomId");
+        writer.println("ID,Name,Type,IsOn,Value");
         for (Device d : devices) {
-            Long roomId = (d.getRoom() != null) ? d.getRoom().getId() : 0L;
-            writer.printf("%d,%s,%s,%b,%d,%d%n",
-                    d.getId(), d.getName(), d.getType(), d.getIsOn(), 
-                    d.getValue() != null ? d.getValue() : 0, roomId);
+            writer.printf("%d,%s,%s,%b,%d%n",
+                    d.getId(),
+                    d.getName(),
+                    d.getType(),
+                    d.getIsOn(),
+                    d.getValue() != null ? d.getValue() : 0);
         }
         writer.flush();
         byte[] csvBytes = out.toByteArray();

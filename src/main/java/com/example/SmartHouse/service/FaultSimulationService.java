@@ -1,11 +1,5 @@
 package com.example.SmartHouse.service;
 
-import com.example.SmartHouse.entity.Sensor;
-import com.example.SmartHouse.entity.SensorStatus;
-import com.example.SmartHouse.repository.SensorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,6 +7,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.SmartHouse.entity.Sensor;
+import com.example.SmartHouse.entity.SensorStatus;
+import com.example.SmartHouse.entity.SensorType;
+import com.example.SmartHouse.repository.SensorRepository;
 
 @Service
 public class FaultSimulationService {
@@ -51,7 +53,7 @@ public class FaultSimulationService {
         }
     }
 
-    private String getSolutionForSensor(com.example.SmartHouse.entity.SensorType type) {
+    private String getSolutionForSensor(SensorType type) {
         switch (type) {
             case TEMP: return "Проверьте охлаждение / нагреватель";
             case HUMIDITY: return "Калибровка датчика влажности";
