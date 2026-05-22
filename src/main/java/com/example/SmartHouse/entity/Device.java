@@ -1,24 +1,10 @@
 package com.example.SmartHouse.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.example.SmartHouse.enums.DeviceType;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "devices")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Device {
 
     @Id
@@ -32,14 +18,30 @@ public class Device {
     private DeviceType type;
 
     private Boolean isOn = false;
+    private Integer value;
 
-    private Integer value;   // яркость (0–100), громкость, температура и т.п.
+    public Device() {}
 
-    // конструктор для удобства
     public Device(String name, DeviceType type) {
         this.name = name;
         this.type = type;
         this.isOn = false;
         this.value = null;
     }
+
+    // Геттеры и сеттеры
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public DeviceType getType() { return type; }
+    public void setType(DeviceType type) { this.type = type; }
+
+    public Boolean getIsOn() { return isOn; }
+    public void setIsOn(Boolean isOn) { this.isOn = isOn; }
+
+    public Integer getValue() { return value; }
+    public void setValue(Integer value) { this.value = value; }
 }

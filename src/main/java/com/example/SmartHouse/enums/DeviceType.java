@@ -1,4 +1,4 @@
-package com.example.SmartHouse.entity;
+package com.example.SmartHouse.enums;
 
 public enum DeviceType {
     LAMP,           // свет

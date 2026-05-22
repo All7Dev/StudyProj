@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.SmartHouse.entity.Sensor;
-import com.example.SmartHouse.entity.SensorStatus;
-import com.example.SmartHouse.entity.SensorType;
+import com.example.SmartHouse.enums.SensorStatus;
+import com.example.SmartHouse.enums.SensorType;
 import com.example.SmartHouse.repository.SensorRepository;
 
 @Service
