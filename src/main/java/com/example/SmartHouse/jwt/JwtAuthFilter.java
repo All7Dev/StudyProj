@@ -1,4 +1,4 @@
-package com.example.SmartHouse.security;
+package com.example.SmartHouse.jwt;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,21 +18,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtTokenProvider tokenProvider;
 
     @Autowired
     private UserDetailsService userDetailsService;
 
-    // Список путей, которые не требуют JWT (они уже разрешены в SecurityConfig)
     private static final List<String> PUBLIC_PATHS = List.of(
         "/api/auth/",
-        "/swagger-ui/",
+        "/swagger-ui",
         "/v3/api-docs/",
         "/api-docs/",
-        "/api-docs",
         "/webjars/",
         "/upload.html"
     );
@@ -44,26 +42,35 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        // Пропускаем публичные пути без проверки JWT
-        boolean isPublicPath = PUBLIC_PATHS.stream().anyMatch(path::startsWith);
-        if (isPublicPath) {
+        // Пропускаем все публичные пути без проверки JWT
+        boolean isPublic = PUBLIC_PATHS.stream().anyMatch(path::startsWith);
+        if (isPublic) {
             chain.doFilter(request, response);
             return;
         }
 
-        // Для всех остальных путей проверяем JWT
-        String token = jwtUtil.getJwtFromCookies(request);
-        if (token != null && jwtUtil.validateToken(token)) {
-            String username = jwtUtil.extractUsername(token);
+        String token = getJwtFromCookie(request);
+        if (token != null && tokenProvider.validateToken(token)) {
+            String username = tokenProvider.getUsernameFromToken(token);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
         chain.doFilter(request, response);
+    }
+
+    private String getJwtFromCookie(HttpServletRequest request) {
+        jakarta.servlet.http.Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (jakarta.servlet.http.Cookie cookie : cookies) {
+                if ("access_token".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
     }
 }

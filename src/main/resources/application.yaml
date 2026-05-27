@@ -1,53 +1,43 @@
-# Название приложения (отображается в логах)
 spring:
   application:
     name: SmartHouse
-
-  # ===== ПОДКЛЮЧЕНИЕ К БАЗЕ ДАННЫХ =====
   datasource:
-    # URL для подключения к PostgreSQL
-    # jdbc:postgresql://хост:порт/имя_базы
     url: jdbc:postgresql://localhost:5432/smart_home_db
-    # Имя пользователя БД (создаётся в PostgreSQL)
     username: home_admin
-    # Пароль
     password: home123
-    # Драйвер PostgreSQL
     driver-class-name: org.postgresql.Driver
-
-  # ===== НАСТРОЙКИ JPA (HIBERNATE) =====
   jpa:
     hibernate:
-      # Автоматически обновлять схему: create, update, validate, none
       ddl-auto: update
-    # Показывать SQL в консоли
     show-sql: true
     properties:
       hibernate:
-        # Красиво форматировать SQL
-        "format_sql": true
-        # Диалект PostgreSQL
+        format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-# ===== ЛОГИРОВАНИЕ СПРИНГА =====
 logging:
   level:
-    "org.springframework.web": DEBUG
-    "com.example.SmartHouse": DEBUG
+    org.springframework.web: DEBUG
+    com.example.SmartHouse: DEBUG
 
-# ===== НАСТРОЙКИ SWAGGER =====
 springdoc:
   api-docs:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
-    
-# ===== Добавляем секрет и срок жизни =====
+
 jwt:
   secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-  expiration: 86400000  # 24 часа
+  expiration: 86400000
 
-# ===== Для связи с TG ботом =====
+# Добавленные строки
+JWT_ACCESS_COOKIE_NAME: access_token
+JWT_REFRESH_COOKIE_NAME: refresh_token
+JWT_ACCESS_TOKEN_DURATION_MINUTE: 15
+JWT_ACCESS_TOKEN_DURATION_SECOND: 900
+JWT_REFRESH_TOKEN_DURATION_DAY: 7
+JWT_REFRESH_TOKEN_DURATION_SECOND: 604800
+
 telegram:
-  bot-token: '8559589596:AAE1-OkXbxSgxIb4vNsw-4gQJnHp_OzyfrM'
-  chat-id: '869184838'
+  bot-token: 'YOUR_TELEGRAM_BOT_TOKEN'
+  chat-id: 'YOUR_CHAT_ID'
