@@ -73,3 +73,7 @@ GET	/api/test/hello	Проверка работоспособности серв
 Страница	Описание
 /upload.html	HTML‑форма для загрузки YAML‑файла сценариев
 /swagger-ui.html	Документация Swagger (интерактивная)
+
+---
+
+ссылка на видео работы программы: https://disk.yandex.ru/i/kLyJGaqSmelFpQ
